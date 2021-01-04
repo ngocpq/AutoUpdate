@@ -44,6 +44,7 @@ namespace Form1
         public void Apply(ref MyWebClient webClient)
         {
             webClient.Headers[HttpRequestHeader.Authorization] = ToString();
+            webClient.Headers["Username"] = Username;
         }
     }
 

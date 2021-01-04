@@ -19,9 +19,10 @@ namespace Form1
             InitializeComponent();
         }
 
-        static BasicAuthentication BasicAuthXML = new BasicAuthentication("user", "pass");
+        static BasicAuthentication BasicAuthXML = new BasicAuthentication("User", "pass");
+
         public static IWebProxy Proxy = null;
-        private static string HttpUserAgent="UpdaterClientAgent";
+        private static string HttpUserAgent="AutoUpdaterClientAgent";
         private static NetworkCredential FtpCredentials = new NetworkCredential("user","pass");
 
         private void btnCheckUpdate_Click(object sender, EventArgs e)
@@ -29,24 +30,9 @@ namespace Form1
             string AppCastURL = txtUpdateServerUrl.Text;
             Uri BaseUri = new Uri(AppCastURL);
 
-            using (MyWebClient client = GetWebClient(BaseUri, BasicAuthXML))
-            {
-                string xml = client.DownloadString(BaseUri);
-
-                MessageBox.Show(xml);
-                //if (ParseUpdateInfoEvent == null)
-                //{
-                //    XmlSerializer xmlSerializer = new XmlSerializer(typeof(UpdateInfoEventArgs));
-                //    XmlTextReader xmlTextReader = new XmlTextReader(new StringReader(xml)) { XmlResolver = null };
-                //    args = (UpdateInfoEventArgs)xmlSerializer.Deserialize(xmlTextReader);
-                //}
-                //else
-                //{
-                //    ParseUpdateInfoEventArgs parseArgs = new ParseUpdateInfoEventArgs(xml);
-                //    ParseUpdateInfoEvent(parseArgs);
-                //    args = parseArgs.UpdateInfo;
-                //}
-            }
+            checkUpdate(AppCastURL);
+            
+            MessageBox.Show("CheckUpdate finished");            
         }
 
 
@@ -87,7 +73,7 @@ namespace Form1
             if (webClient == null)
                 webClient = new MyWebClient
                 {
-                    CachePolicy = new RequestCachePolicy(RequestCacheLevel.CacheIfAvailable)
+                    CachePolicy = new RequestCachePolicy(RequestCacheLevel.NoCacheNoStore)
                 };
 
             if (Proxy != null)
@@ -122,6 +108,19 @@ namespace Form1
         private void trackbar_ValueChanged(object sender, EventArgs e)
         {
             timerCheckUpdate.Interval = trackbar.Value;
+        }
+
+        
+        private void btnLogin_Click(object sender, EventArgs e)
+        {
+            if(txtUsername.Text.Trim().Length==0)
+            {
+                MessageBox.Show("Username is not entered!");
+                return;
+            }
+            
+            BasicAuthXML = new BasicAuthentication(txtUsername.Text, textBox2.Text);
+            MessageBox.Show("Loggin successful");
         }
     }
 }

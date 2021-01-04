@@ -7,34 +7,34 @@ using System.IO;
 
 namespace UpdateServer
 {
-    public class WebServer
-    {  
-        string _RootDir = @"C:\webserver\";
+    public abstract class WebServer
+    {
+        public string RootDir = @"C:\webserver\";
 
         private readonly HttpListener _listener = new HttpListener();
 
-        public delegate void HttpRequestReceivedEventHandler(HttpListenerRequest request, object source);
-        public event HttpRequestReceivedEventHandler HttpRequestListeners;
+        //public delegate void HttpRequestReceivedEventHandler(HttpListenerRequest request, object source);
+        //public event HttpRequestReceivedEventHandler HttpRequestListeners;
 
-        public delegate void HttpRequestHandler(HttpListenerContext context, object source);
-        public event HttpRequestHandler RequestHandler;
+        //public delegate void HttpRequestHandler(HttpListenerContext context, object source);
+        //public event HttpRequestHandler RequestHandler;
 
 
-        public static int pageViews = 0;
-        public static int requestCount = 0;
-        public static string pageData =
-            "<!DOCTYPE>" +
-            "<html>" +
-            "  <head>" +
-            "    <title>HttpListener Example</title>" +
-            "  </head>" +
-            "  <body>" +
-            "    <p>Page Views: {0}</p>" +
-            "    <form method=\"post\" action=\"shutdown\">" +
-            "      <input type=\"submit\" value=\"Shutdown\" {1}>" +
-            "    </form>" +
-            "  </body>" +
-            "</html>";
+        //public static int pageViews = 0;
+        //public static int requestCount = 0;
+        //public static string pageData =
+        //    "<!DOCTYPE>" +
+        //    "<html>" +
+        //    "  <head>" +
+        //    "    <title>HttpListener Example</title>" +
+        //    "  </head>" +
+        //    "  <body>" +
+        //    "    <p>Page Views: {0}</p>" +
+        //    "    <form method=\"post\" action=\"shutdown\">" +
+        //    "      <input type=\"submit\" value=\"Shutdown\" {1}>" +
+        //    "    </form>" +
+        //    "  </body>" +
+        //    "</html>";
 
         public bool isRunning { get { return _listener.IsListening; } }
 
@@ -56,6 +56,8 @@ namespace UpdateServer
                 _listener.Prefixes.Add(s);            
         }
 
+        protected abstract HttpListenerResponse WriteResponse(HttpListenerContext context);
+
         private void ListenerCallback(IAsyncResult result)
         {
             HttpListener listener = (HttpListener)result.AsyncState;
@@ -64,35 +66,37 @@ namespace UpdateServer
             
             listener.BeginGetContext(new AsyncCallback(ListenerCallback), listener);
             HttpListenerContext context = listener.EndGetContext(result);
+            
+            this.WriteResponse(context);            
 
-            if (this.HttpRequestListeners != null)
-            {
-                this.HttpRequestListeners(context.Request, listener);
-            }
+            //if (this.HttpRequestListeners != null)
+            //{
+            //    this.HttpRequestListeners(context.Request, listener);
+            //}
 
-            if (this.RequestHandler != null)
-            {
-                RequestHandler(context, listener);
-            }
-            else
-            {
-                HttpListenerRequest request = context.Request;
-                HttpListenerResponse response = context.Response;
+            //if (this.RequestHandler != null)
+            //{
+            //    RequestHandler(context, listener);
+            //}
+            //else
+            //{
+            //    HttpListenerRequest request = context.Request;
+            //    HttpListenerResponse response = context.Response;
+                
+            //    string disableSubmit = "";
+            //    byte[] page = Encoding.UTF8.GetBytes(String.Format(pageData, pageViews, disableSubmit)); //GetFile("1.html");
 
-                string disableSubmit = "";
-                byte[] page = Encoding.UTF8.GetBytes(String.Format(pageData, pageViews, disableSubmit)); //GetFile("1.html");
-
-                response.ContentLength64 = page.Length;
-                Stream output = response.OutputStream;
-                try
-                {
-                    output.Write(page, 0, page.Length);
-                }
-                finally
-                {
-                    output.Close();
-                }
-            }
+            //    response.ContentLength64 = page.Length;
+            //    Stream output = response.OutputStream;
+            //    try
+            //    {
+            //        output.Write(page, 0, page.Length);
+            //    }
+            //    finally
+            //    {
+            //        output.Close();
+            //    }
+            //}
 
 
         }

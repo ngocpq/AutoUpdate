@@ -38,6 +38,21 @@ namespace UpdateServer
             }
         }
 
+        private delegate void InvokeControlMethodThreadSafeDelegate(Control control, string methodName, object[] parameter);
+
+        public static void InvokeControlMethodThreadSafe(Control control, string methodName, object[] parameters)
+        {
+            if (control.InvokeRequired)
+            {
+                object[] para = new object[] { control, methodName, parameters };
+                control.Invoke(new SetControlPropertyThreadSafeDelegate(SetControlPropertyThreadSafe), para);
+            }
+            else
+            {
+                control.GetType().InvokeMember(methodName, BindingFlags.InvokeMethod, null, control, parameters);
+            }
+        }
+
         public static object GetControlPropertyThreadSafe(Control control, string propertyName)
         {
             if (control.InvokeRequired)
@@ -128,7 +143,6 @@ namespace UpdateServer
             sb.Append(Environment.NewLine);
             sb.Append(String.Format("\tRequestTraceIdentifier: {0}", request.RequestTraceIdentifier));
             sb.Append(Environment.NewLine);
-
 
             sb.Append(String.Format("\tClient Count: {0}", this.updaterServer.ActiveClients.Count));
             sb.Append(Environment.NewLine);
@@ -268,19 +282,19 @@ namespace UpdateServer
             output.Close();
         }
 
-        WebServer ws = null;
+        UpdaterWebServer updaterWebServer = null;
         private void button3_Click(object sender, EventArgs e)
         {
             String prefix = txtPrefix.Text;// "http://localhost:8080/";
-            if (ws == null)
+            if (updaterWebServer == null)
             {
-                ws = new WebServer(prefix);
+                updaterWebServer = new UpdaterWebServer(prefix);
             }
-            if (!ws.isRunning)
+            if (!updaterWebServer.isRunning)
             {
-                ws.start();
+                updaterWebServer.start();
                 //ws.RequestHandler += this.ProcessRequest;
-                ws.HttpRequestListeners += this.UpdateRequestedLog;
+                updaterWebServer.HttpRequestListeners += this.UpdateRequestedLog;
 
             }
             txtMsg.Text+=Environment.NewLine+"Server is listenning to: "+ prefix;
@@ -294,24 +308,25 @@ namespace UpdateServer
 
         private void button4_Click(object sender, EventArgs e)
         {
-            if (ws == null || !ws.isRunning) { 
+            if (updaterWebServer == null || !updaterWebServer.isRunning) { 
                 MessageBox.Show("Server is not running");
                 return;
             }
-            ws.Stop();
+
+            updaterWebServer.Stop();
             MessageBox.Show("Server stopped");
         }
 
         private void button5_Click(object sender, EventArgs e)
         {
-            if (ws == null)
+            if (updaterWebServer == null)
             {
                 MessageBox.Show("Server is null");
                 return;
             }
 
-            ws.shutdown();
-            ws = null;
+            updaterWebServer.shutdown();
+            updaterWebServer = null;
             MessageBox.Show("Server shutdowned");
         }
 
@@ -328,14 +343,43 @@ namespace UpdateServer
 
         private void FormUpdateManager_Load(object sender, EventArgs e)
         {
-            this.HttpRequestReceivedEvent += ProcessRequest;
-            this.updaterServer.updateActiveClients(new ClientInfo { SessionId = "client1", LastActiveTime = DateTime.Now, Version="Version 0" });
-            this.updaterServerViewBindingSource.DataSource = this.updaterServer;
+            //this.HttpRequestReceivedEvent += ProcessRequest;
+            //this.updaterServer.updateActiveClients(new ClientInfo { SessionId = "client1", LastActiveTime = DateTime.Now, Version="Version 0" });
+            //this.updaterWebServerBindingSource.DataSource = this.updaterServer;
+
+            //this.button3_Click(null, null);
+            
+            String prefix = txtPrefix.Text;// "http://localhost:8080/";
+            if (updaterWebServer == null)
+            {
+                updaterWebServer = new UpdaterWebServer(prefix);
+            }
+            if (!updaterWebServer.isRunning)
+            {
+                updaterWebServer.start();
+                updaterWebServer.HttpRequestListeners += this.UpdateRequestedLog;
+                updaterWebServer.ActiveClientUpdated += Ws_ActiveClientUpdated;
+            }
+            txtMsg.Text += Environment.NewLine + "Server is listenning to: " + prefix;
+
+            this.updaterWebServerBindingSource.DataSource = this.updaterWebServer;
+
+        }
+
+        private void Ws_ActiveClientUpdated(ClientInfo client, object source)
+        {
+            //this.timer1.Enabled = true;
+            this.timer1.Start();
         }
 
         private void btnUpdateBinding_Click(object sender, EventArgs e)
         {
-            this.updaterServerViewBindingSource.ResetBindings(true);
+            this.updaterWebServerBindingSource.ResetBindings(true);
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            this.updaterWebServerBindingSource.ResetBindings(true);            
         }
     }
 }

@@ -56,6 +56,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UpdaterServerView.cs" />
     <Compile Include="UpdaterWebServer.cs" />
     <Compile Include="WebServer.cs" />
     <EmbeddedResource Include="FormUpdateManager.resx">
@@ -71,7 +72,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <None Include="ClassDiagram1.cd" />
-    <None Include="Properties\DataSources\UpdaterServerView.datasource" />
+    <None Include="Properties\DataSources\UpdaterWebServer.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
