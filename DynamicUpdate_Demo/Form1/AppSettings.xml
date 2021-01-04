@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Settings>
+  <UpdateUrl>htt://localhost:8080/VersionInfo</UpdateUrl>
+  <!--<UpdateUrl>https://drive.google.com/drive/folders/111J86uzldaUretRTdaG4p7JzF16Uzvio/Form1.application</UpdateUrl>-->
+</Settings>

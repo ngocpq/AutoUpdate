@@ -2,7 +2,7 @@
 
 namespace Form1
 {
-    partial class Form1
+    partial class FormAppClient
     {
         /// <summary>
         /// Required designer variable.
@@ -40,11 +40,12 @@ namespace Form1
             this.trackbar = new System.Windows.Forms.TrackBar();
             this.lableTimeInterval = new System.Windows.Forms.Label();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
-            this.btnLogin = new System.Windows.Forms.Button();
-            this.txtUsername = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
+            this.lblCurrentVersion = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.lblLastCheckedTime = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.trackbar)).BeginInit();
             this.SuspendLayout();
             // 
@@ -132,68 +133,80 @@ namespace Form1
             this.richTextBox1.TabIndex = 3;
             this.richTextBox1.Text = "";
             // 
-            // btnLogin
-            // 
-            this.btnLogin.Location = new System.Drawing.Point(860, 43);
-            this.btnLogin.Name = "btnLogin";
-            this.btnLogin.Size = new System.Drawing.Size(74, 38);
-            this.btnLogin.TabIndex = 4;
-            this.btnLogin.Text = "Login";
-            this.btnLogin.UseVisualStyleBackColor = true;
-            this.btnLogin.Click += new System.EventHandler(this.btnLogin_Click);
-            // 
-            // txtUsername
-            // 
-            this.txtUsername.Location = new System.Drawing.Point(664, 40);
-            this.txtUsername.Name = "txtUsername";
-            this.txtUsername.Size = new System.Drawing.Size(165, 20);
-            this.txtUsername.TabIndex = 5;
-            this.txtUsername.Text = "Username";
-            // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(600, 43);
+            this.label3.Location = new System.Drawing.Point(631, 28);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(58, 13);
+            this.label3.Size = new System.Drawing.Size(82, 13);
             this.label3.TabIndex = 2;
-            this.label3.Text = "Username:";
+            this.label3.Text = "Current Version:";
+            // 
+            // lblCurrentVersion
+            // 
+            this.lblCurrentVersion.AutoSize = true;
+            this.lblCurrentVersion.Location = new System.Drawing.Point(720, 28);
+            this.lblCurrentVersion.Name = "lblCurrentVersion";
+            this.lblCurrentVersion.Size = new System.Drawing.Size(42, 13);
+            this.lblCurrentVersion.TabIndex = 2;
+            this.lblCurrentVersion.Text = "Version";
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(600, 81);
+            this.label4.Location = new System.Drawing.Point(631, 69);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(56, 13);
+            this.label4.Size = new System.Drawing.Size(76, 13);
             this.label4.TabIndex = 2;
-            this.label4.Text = "Password:";
+            this.label4.Text = "Latest version:";
             // 
-            // textBox2
+            // label5
             // 
-            this.textBox2.Location = new System.Drawing.Point(664, 74);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(165, 20);
-            this.textBox2.TabIndex = 5;
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(720, 69);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(73, 13);
+            this.label5.TabIndex = 2;
+            this.label5.Text = "Latest version";
             // 
-            // Form1
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(631, 112);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(75, 13);
+            this.label6.TabIndex = 2;
+            this.label6.Text = "Last checked:";
+            // 
+            // lblLastCheckedTime
+            // 
+            this.lblLastCheckedTime.AutoSize = true;
+            this.lblLastCheckedTime.Location = new System.Drawing.Point(720, 112);
+            this.lblLastCheckedTime.Name = "lblLastCheckedTime";
+            this.lblLastCheckedTime.Size = new System.Drawing.Size(72, 13);
+            this.lblLastCheckedTime.TabIndex = 2;
+            this.lblLastCheckedTime.Text = "Checked time";
+            // 
+            // FormAppClient
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(960, 450);
-            this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.txtUsername);
-            this.Controls.Add(this.btnLogin);
             this.Controls.Add(this.richTextBox1);
             this.Controls.Add(this.trackbar);
             this.Controls.Add(this.lableTimeInterval);
             this.Controls.Add(this.label2);
+            this.Controls.Add(this.lblLastCheckedTime);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.lblCurrentVersion);
+            this.Controls.Add(this.label6);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.txtUpdateServerUrl);
             this.Controls.Add(this.btnCheckUpdateAuto);
             this.Controls.Add(this.btnCheckUpdate);
-            this.Name = "Form1";
+            this.Name = "FormAppClient";
             this.Text = "Form 1: Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.trackbar)).EndInit();
@@ -213,11 +226,12 @@ namespace Form1
         private System.Windows.Forms.Label label2;
         private Label lableTimeInterval;
         private RichTextBox richTextBox1;
-        private Button btnLogin;
-        private TextBox txtUsername;
         private Label label3;
+        private Label lblCurrentVersion;
         private Label label4;
-        private TextBox textBox2;
+        private Label label5;
+        private Label label6;
+        private Label lblLastCheckedTime;
     }
 }
 

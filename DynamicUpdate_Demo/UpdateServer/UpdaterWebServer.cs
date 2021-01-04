@@ -8,16 +8,25 @@ namespace UpdateServer
 {
     public class UpdaterWebServer : WebServer
     {
+        long _TimeOut = 30 * 1000; //30 seconds
         private List<ClientInfo> _ConnectedClients = new List<ClientInfo>();
-        public List<ClientInfo> ActiveClients { get { return _ConnectedClients; } }
+        public List<ClientInfo> ActiveClients
+        {
+            get
+            {
+                //return _ConnectedClients.Where(x => x.LastActiveTime.AddSeconds(_TimeOut) < DateTime.Now);
+                return _ConnectedClients;
+            }
+        }
 
         string UpdateInfoFilePath = "/VersionInfo".ToLower();
         
-        public UpdaterWebServer(string prefixes) : this(new string[] { prefixes })
+        public UpdaterWebServer(string rootDir, string prefixes) : this(rootDir,new string[] { prefixes })
         {
         }
-        public UpdaterWebServer(string[] prefixes) : base(prefixes)
+        public UpdaterWebServer(string rootDir,string[] prefixes) : base(prefixes)
         {
+            this.RootDir = rootDir;
         }
 
         public delegate void ActiveClientUpdatedHandler(ClientInfo client, object source);
@@ -29,7 +38,7 @@ namespace UpdateServer
         public void updateActiveClients(ClientInfo client)
         {
             ClientInfo oldInfo = null;
-            foreach (ClientInfo c in this.ActiveClients)
+            foreach (ClientInfo c in this._ConnectedClients)
             {
                 if (c.UserId == client.UserId)
                 {
@@ -38,12 +47,14 @@ namespace UpdateServer
                 }
             }
             if (oldInfo == null)
-                ActiveClients.Add(client);
+                _ConnectedClients.Add(client);
             else
             {
                 lock (oldInfo)
                 {
                     oldInfo.LastActiveTime = DateTime.Now;
+                    oldInfo.Version = client.Version;
+                    oldInfo.SessionId = client.SessionId;
                 }                
             }
             if (ActiveClientUpdated != null)
@@ -61,7 +72,7 @@ namespace UpdateServer
                 client.UserId = "Unknown";
 
             client.SessionId = request.RequestTraceIdentifier.ToString();
-            client.Version = request.QueryString["version"];
+            client.Version = request.Headers["AppVersion"];
             client.LastActiveTime = DateTime.Now;
             return client;
         }
@@ -100,13 +111,16 @@ namespace UpdateServer
             }
             else
             {
-                string requestedFile = request.Url.AbsolutePath;
+                string requestedFile = request.Url.AbsolutePath.Substring(1);                
+                
                 string filePath = Path.Combine(RootDir, requestedFile);
+                byte[] page;
+                if (File.Exists(filePath))
+                    page = GetFile(filePath);
+                else
+                    page = Encoding.UTF8.GetBytes("File not found: "+filePath);
 
-                //byte[] page = GetFile(filePath);
-                byte[] page = Encoding.UTF8.GetBytes("This is the content of file: "+filePath);
-
-                response.ContentLength64 = page.Length;
+                response.ContentLength64 = page.Length;                
                 Stream output = response.OutputStream;
                 try
                 {

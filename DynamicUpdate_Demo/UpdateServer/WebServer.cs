@@ -11,7 +11,7 @@ namespace UpdateServer
     {
         public string RootDir = @"C:\webserver\";
 
-        private readonly HttpListener _listener = new HttpListener();
+        private readonly HttpListener _listener;
 
         //public delegate void HttpRequestReceivedEventHandler(HttpListenerRequest request, object source);
         //public event HttpRequestReceivedEventHandler HttpRequestListeners;
@@ -46,6 +46,7 @@ namespace UpdateServer
                 throw new NotSupportedException(
                     "Needs Windows XP SP2, Server 2003 or later.");
 
+            _listener = new HttpListener();
             // URI prefixes are required, for example 
             // "http://localhost:8080/index/".
             if (prefixes == null || prefixes.Length == 0)
@@ -100,6 +101,12 @@ namespace UpdateServer
 
 
         }
+
+        public string GetAbsolutePath(string virtualPath)
+        {
+            return Path.Combine(RootDir, virtualPath);
+        }
+
         public static byte[] GetFile(string file)
         {
             if (!File.Exists(file)) return null;

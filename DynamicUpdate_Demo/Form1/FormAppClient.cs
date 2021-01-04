@@ -1,4 +1,7 @@
-﻿using System;
+﻿using AutoUpdaterTest;
+using AutoUpdaterTest.Utils;
+using Bingo.Update;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,14 +15,26 @@ using System.Windows.Forms;
 
 namespace Form1
 {
-    public partial class Form1 : Form
+    public partial class FormAppClient : Form
     {
-        public Form1()
+        public FormAppClient()
         {
             InitializeComponent();
         }
 
-        static BasicAuthentication BasicAuthXML = new BasicAuthentication("User", "pass");
+        private static Random random = new Random();
+
+        static string CurrentVersion = AsmUtils.GetCurrentVersion().ToString();
+        public static string RandomString(int length)
+        {
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            return new string(Enumerable.Repeat(chars, length)
+              .Select(s => s[random.Next(s.Length)]).ToArray());
+        }
+
+        static string userId = RandomString(10);
+
+        static BasicAuthentication BasicAuthXML = new BasicAuthentication(userId, "pass");
 
         public static IWebProxy Proxy = null;
         private static string HttpUserAgent="AutoUpdaterClientAgent";
@@ -43,27 +58,34 @@ namespace Form1
         }
 
         void checkUpdate(string url)
-        {            
+        {
             Uri BaseUri = new Uri(url);
 
             using (MyWebClient client = GetWebClient(BaseUri, BasicAuthXML))
             {
-                string xml = client.DownloadString(BaseUri);
-
-                richTextBox1.Text += xml;
-                richTextBox1.Text += Environment.NewLine + "-------------------------" + Environment.NewLine;
-                //if (ParseUpdateInfoEvent == null)
-                //{
-                //    XmlSerializer xmlSerializer = new XmlSerializer(typeof(UpdateInfoEventArgs));
-                //    XmlTextReader xmlTextReader = new XmlTextReader(new StringReader(xml)) { XmlResolver = null };
-                //    args = (UpdateInfoEventArgs)xmlSerializer.Deserialize(xmlTextReader);
-                //}
-                //else
-                //{
-                //    ParseUpdateInfoEventArgs parseArgs = new ParseUpdateInfoEventArgs(xml);
-                //    ParseUpdateInfoEvent(parseArgs);
-                //    args = parseArgs.UpdateInfo;
-                //}
+                try
+                {
+                    webClient.Headers["AppVersion"] = CurrentVersion;
+                    string xml = client.DownloadString(BaseUri);
+                    richTextBox1.Text += xml;
+                    richTextBox1.Text += Environment.NewLine + "-------------------------" + Environment.NewLine;
+                    
+                    //if (ParseUpdateInfoEvent == null)
+                    //{
+                    //    XmlSerializer xmlSerializer = new XmlSerializer(typeof(UpdateInfoEventArgs));
+                    //    XmlTextReader xmlTextReader = new XmlTextReader(new StringReader(xml)) { XmlResolver = null };
+                    //    args = (UpdateInfoEventArgs)xmlSerializer.Deserialize(xmlTextReader);
+                    //}
+                    //else
+                    //{
+                    //    ParseUpdateInfoEventArgs parseArgs = new ParseUpdateInfoEventArgs(xml);
+                    //    ParseUpdateInfoEvent(parseArgs);
+                    //    args = parseArgs.UpdateInfo;
+                    //}
+                }catch(Exception ex)
+                {
+                    richTextBox1.Text += "Cannot check for update. Error: " + ex.Message;
+                }
             }
         }
 
@@ -102,6 +124,7 @@ namespace Form1
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            txtUpdateServerUrl.Text = AppSettings.UpdateUrl;
             this.lableTimeInterval.DataBindings.Add("Text", this.trackbar, "Value");            
         }
 
@@ -109,18 +132,6 @@ namespace Form1
         {
             timerCheckUpdate.Interval = trackbar.Value;
         }
-
         
-        private void btnLogin_Click(object sender, EventArgs e)
-        {
-            if(txtUsername.Text.Trim().Length==0)
-            {
-                MessageBox.Show("Username is not entered!");
-                return;
-            }
-            
-            BasicAuthXML = new BasicAuthentication(txtUsername.Text, textBox2.Text);
-            MessageBox.Show("Loggin successful");
-        }
     }
 }

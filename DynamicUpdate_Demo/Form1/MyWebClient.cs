@@ -3,7 +3,6 @@ using System.Net;
 
 namespace Form1
 {
-    /// <inheritdoc />
     public class MyWebClient : WebClient
     {
         /// <summary>

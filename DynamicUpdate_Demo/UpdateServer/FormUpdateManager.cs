@@ -121,14 +121,11 @@ namespace UpdateServer
         //    SetControlPropertyThreadSafe(dataGridView1, "DataSource", this.ActiveClients);
         //}
 
-        UpdaterServerView updaterServer = new UpdaterServerView();
+        //UpdaterServerView updaterServer = new UpdaterServerView();
 
         private void UpdateRequestedLog(HttpListenerRequest request, object source)
         {
-            ClientInfo client = getClientInfoFromRequest(request);
-            //updateActiveClients(client);
-            updaterServer.updateActiveClients(client);
-
+            
             string strOldText = (string)GetControlPropertyThreadSafe(txtMsg, "Text");
             // Print out some info about the request
             StringBuilder sb = new StringBuilder(strOldText);
@@ -144,7 +141,7 @@ namespace UpdateServer
             sb.Append(String.Format("\tRequestTraceIdentifier: {0}", request.RequestTraceIdentifier));
             sb.Append(Environment.NewLine);
 
-            sb.Append(String.Format("\tClient Count: {0}", this.updaterServer.ActiveClients.Count));
+            sb.Append(String.Format("\tClient Count: {0}", this.updaterWebServer.ActiveClients.Count));
             sb.Append(Environment.NewLine);
 
 
@@ -288,7 +285,8 @@ namespace UpdateServer
             String prefix = txtPrefix.Text;// "http://localhost:8080/";
             if (updaterWebServer == null)
             {
-                updaterWebServer = new UpdaterWebServer(prefix);
+                String rootDir = txtBaseDir.Text;
+                updaterWebServer = new UpdaterWebServer(rootDir,prefix);
             }
             if (!updaterWebServer.isRunning)
             {
@@ -343,16 +341,19 @@ namespace UpdateServer
 
         private void FormUpdateManager_Load(object sender, EventArgs e)
         {
+            txtBaseDir.Text = AppDomain.CurrentDomain.BaseDirectory;
+
             //this.HttpRequestReceivedEvent += ProcessRequest;
             //this.updaterServer.updateActiveClients(new ClientInfo { SessionId = "client1", LastActiveTime = DateTime.Now, Version="Version 0" });
             //this.updaterWebServerBindingSource.DataSource = this.updaterServer;
 
             //this.button3_Click(null, null);
-            
+
             String prefix = txtPrefix.Text;// "http://localhost:8080/";
             if (updaterWebServer == null)
             {
-                updaterWebServer = new UpdaterWebServer(prefix);
+                String rootDir = txtBaseDir.Text;
+                updaterWebServer = new UpdaterWebServer(rootDir,prefix);
             }
             if (!updaterWebServer.isRunning)
             {
@@ -380,6 +381,18 @@ namespace UpdateServer
         private void timer1_Tick(object sender, EventArgs e)
         {
             this.updaterWebServerBindingSource.ResetBindings(true);            
+        }
+
+        private void btnBaseDirBrowse_Click(object sender, EventArgs e)
+        {
+            FolderBrowserDialog dlg = new FolderBrowserDialog();
+            dlg.SelectedPath = AppDomain.CurrentDomain.BaseDirectory;
+            
+            if (dlg.ShowDialog() == DialogResult.OK)
+            {
+                txtBaseDir.Text = dlg.SelectedPath;
+                updaterWebServer.RootDir = txtBaseDir.Text;
+            }
         }
     }
 }
