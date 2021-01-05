@@ -27,7 +27,7 @@ namespace DynamicUpdate_Demo
 
         Dictionary<AppDomain, bool> appDomainState = new Dictionary<AppDomain, bool>();
 
-        //AppDomain appDomain1;
+        AppDomain appDomain1;
         Assembly assembly;
         bool unloaded = true;
 
@@ -75,7 +75,7 @@ namespace DynamicUpdate_Demo
         private void FormUpdateDemoMain_Load(object sender, EventArgs e)
         {
             txtCurrentAsmFilePath.Text = Path.Combine(AppContext.BaseDirectory, "ControlLibrary2.dll");
-            txtClassName.Text = "ControlLibrary2.Form1";
+            txtClassName.Text = "ControlLibrary2.FormMarshalRefObject1";
             lblCurrentVersion.Text = GetAssemblyVersion(txtCurrentAsmFilePath.Text).ToString();
         }
 
@@ -92,25 +92,32 @@ namespace DynamicUpdate_Demo
             lblCurrentVersion.Text = version;
             try
             {
-                //appDomain1 = AppDomain.CreateDomain("appDomain1:" + count1);
+                //AppDomainSetup info = new AppDomainSetup();
+                //info.ApplicationBase = AppDomain.CurrentDomain.BaseDirectory; ;
+                //info.LoaderOptimization = LoaderOptimization.SingleDomain;
+                //info.ShadowCopyFiles = "true";
+                //appDomain1 = AppDomain.CreateDomain("appDomain1:" + count1, null, info);
+
+                appDomain1 = AppDomain.CreateDomain("appDomain1:" + count1);
                 unloaded = false;
-                //appDomain1.DomainUnload += AppDomain1_DomainUnload1;
-                
-                byte[] dllData = File.ReadAllBytes(asmPath);
-                
-                //Assembly asm = appDomain1.Load(dllData);
-                assembly = Assembly.Load(dllData);
-                
-                object obj = assembly.CreateInstance(txtClassName.Text);
-                //object obj = appDomain1.CreateInstanceFromAndUnwrap(txtCurrentAsmFilePath.Text, txtClassName.Text);
-                
-                if (obj is Form)
+                appDomain1.DomainUnload += AppDomain1_DomainUnload1;
+
+                string asmName = AssemblyName.GetAssemblyName(txtCurrentAsmFilePath.Text).FullName;
+                System.Runtime.Remoting.ObjectHandle handler = appDomain1.CreateInstance(asmName, txtClassName.Text);
+                object obj = handler.Unwrap();
+
+                if (obj is CommonLib.FormMarshalRefObject)
+                {
+                    CommonLib.FormMarshalRefObject f1 = (CommonLib.FormMarshalRefObject)obj;
+                    f1.Show();
+                }
+                else if (obj is Form)
                 {
                     form1 = (Form)obj;
-                    form1.TopLevel = false;
-                    form1.FormBorderStyle = FormBorderStyle.None;
-                    form1.Dock = DockStyle.Fill;
-                    panel1.Controls.Add(form1);
+                    //form1.TopLevel = false;
+                    //form1.FormBorderStyle = FormBorderStyle.None;
+                    //form1.Dock = DockStyle.Fill;
+                    //panel1.Controls.Add(form1);
                     form1.Show();
                 }
                 return true;
@@ -155,18 +162,18 @@ namespace DynamicUpdate_Demo
                 panel1.Controls.Remove(form1);
                 form1 = null;
             }
-            ////unload and rename dll
-            //if (appDomain1 != null)
-            //{
-            //    AppDomain.Unload(appDomain1);
-            //    GC.Collect();
-            //    int retry = 0;
-            //    while (appDomain1 != null && !unloaded)
-            //    {
-            //        Thread.Sleep(300);
-            //        retry++;
-            //    }                
-            //}
+            //unload and rename dll
+            if (appDomain1 != null)
+            {
+                AppDomain.Unload(appDomain1);
+                GC.Collect();
+                int retry = 0;
+                while (appDomain1 != null && !unloaded)
+                {
+                    Thread.Sleep(300);
+                    retry++;
+                }
+            }
             string currFile = txtCurrentAsmFilePath.Text;
             if (File.Exists(currFile))
             {                

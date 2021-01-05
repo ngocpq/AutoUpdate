@@ -99,6 +99,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CommonLib\CommonLib.csproj">
+      <Project>{409ad9d5-36d8-4dbf-9c67-2772f2d92a01}</Project>
+      <Name>CommonLib</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ControlLibrary2\ControlLibrary2.csproj">
       <Project>{0553e963-0eac-4b6f-831c-9bdc6dd78f03}</Project>
       <Name>ControlLibrary2</Name>
