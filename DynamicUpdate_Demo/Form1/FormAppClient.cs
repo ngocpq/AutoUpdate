@@ -124,7 +124,7 @@ namespace Form1
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            txtUpdateServerUrl.Text = AppSettings.UpdateUrl;
+            //txtUpdateServerUrl.Text = AppSettings.UpdateUrl;
             this.lableTimeInterval.DataBindings.Add("Text", this.trackbar, "Value");            
         }
 
