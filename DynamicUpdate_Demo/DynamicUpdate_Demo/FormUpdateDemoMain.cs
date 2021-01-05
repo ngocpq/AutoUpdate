@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -26,7 +27,8 @@ namespace DynamicUpdate_Demo
 
         Dictionary<AppDomain, bool> appDomainState = new Dictionary<AppDomain, bool>();
 
-        AppDomain appDomain1;
+        //AppDomain appDomain1;
+        Assembly assembly;
         bool unloaded = true;
 
         int count1 = 0;
@@ -39,33 +41,29 @@ namespace DynamicUpdate_Demo
             //4) replace the assembly file (update dll)
             //5) reload and start the assambly       
 
+            if (txtNewAsmFile.Text.Trim().Length == 0)
+            {
+                MessageBox.Show("Select new DLL first");
+                return;
+            }
+
             if (CompareAssemblyVersion(lblCurrentVersion.Text, lblNewVersion.Text) >= 0)
             {
                 MessageBox.Show("Current version is the later version");
                 return;
             }
 
-            if (appDomain1 != null) {
-                splitContainerMainBody.Panel2.Controls.Remove(form1);
-                AppDomain.Unload(appDomain1);
-                //replace dll
-                int retry = 0;
-                while (appDomain1 != null &&  !unloaded)
-                {
-                    Thread.Sleep(300);
-                    retry++;
-                }
-                string backupFile = txtCurrentAsmFilePath.Text + ".bak";                
-                File.Copy(txtNewAsmFile.Text, txtCurrentAsmFilePath.Text, true);
-            }
+            UnloadAndDeleteDll();            
+            File.Copy(txtNewAsmFile.Text, txtCurrentAsmFilePath.Text, true);
+
             if (loadAsm(txtCurrentAsmFilePath.Text))
                 MessageBox.Show("Updated");
         }
 
         public static Version GetAssemblyVersion(string asmPath)
         {
-            System.Reflection.Assembly asm = System.Reflection.Assembly.ReflectionOnlyLoadFrom(asmPath);
-            return asm.GetName().Version;
+            AssemblyName assemblyName = AssemblyName.GetAssemblyName(asmPath);
+            return assemblyName.Version;            
         }
         public static int CompareAssemblyVersion(string strV1, string strV2)
         {
@@ -83,29 +81,36 @@ namespace DynamicUpdate_Demo
 
         private void btnUpdate2_Click(object sender, EventArgs e)
         {
-            if (loadAsm(txtCurrentAsmFilePath.Text))
-                MessageBox.Show("Loaded");
+            loadAsm(txtCurrentAsmFilePath.Text);                
         }
 
-        bool loadAsm(string newAsmFilePath)
+        bool loadAsm(string asmPath)
         {
-            string version = GetAssemblyVersion(newAsmFilePath).ToString();
+            string version = GetAssemblyVersion(asmPath).ToString();
 
-            txtCurrentAsmFilePath.Text = newAsmFilePath;
+            txtCurrentAsmFilePath.Text = asmPath;
             lblCurrentVersion.Text = version;
             try
             {
-                appDomain1 = AppDomain.CreateDomain("appDomain1:" + count1);
+                //appDomain1 = AppDomain.CreateDomain("appDomain1:" + count1);
                 unloaded = false;
-                appDomain1.DomainUnload += AppDomain1_DomainUnload1;
-                object obj = appDomain1.CreateInstanceFromAndUnwrap(txtCurrentAsmFilePath.Text, txtClassName.Text);
+                //appDomain1.DomainUnload += AppDomain1_DomainUnload1;
+                
+                byte[] dllData = File.ReadAllBytes(asmPath);
+                
+                //Assembly asm = appDomain1.Load(dllData);
+                assembly = Assembly.Load(dllData);
+                
+                object obj = assembly.CreateInstance(txtClassName.Text);
+                //object obj = appDomain1.CreateInstanceFromAndUnwrap(txtCurrentAsmFilePath.Text, txtClassName.Text);
+                
                 if (obj is Form)
                 {
                     form1 = (Form)obj;
-                    //form1.TopLevel = false;
-                    //form1.FormBorderStyle = FormBorderStyle.None;
-                    //form1.Dock = DockStyle.Fill;
-                    //panel1.Controls.Add(form1);
+                    form1.TopLevel = false;
+                    form1.FormBorderStyle = FormBorderStyle.None;
+                    form1.Dock = DockStyle.Fill;
+                    panel1.Controls.Add(form1);
                     form1.Show();
                 }
                 return true;
@@ -119,7 +124,7 @@ namespace DynamicUpdate_Demo
 
         private void AppDomain1_DomainUnload1(object sender, EventArgs e)
         {
-            appDomain1 = null;
+            //appDomain1 = null;
             unloaded = true;
         }
 
@@ -136,6 +141,43 @@ namespace DynamicUpdate_Demo
 
             txtNewAsmFile.Text = dlg.FileName;
             lblNewVersion.Text = GetAssemblyVersion(txtNewAsmFile.Text).ToString();
+        }
+
+        bool UnloadAndDeleteDll()
+        {
+            if (assembly != null)
+            {
+                //TODO: clean up memory
+                assembly = null;
+            }
+            if (this.form1 != null)
+            {
+                panel1.Controls.Remove(form1);
+                form1 = null;
+            }
+            ////unload and rename dll
+            //if (appDomain1 != null)
+            //{
+            //    AppDomain.Unload(appDomain1);
+            //    GC.Collect();
+            //    int retry = 0;
+            //    while (appDomain1 != null && !unloaded)
+            //    {
+            //        Thread.Sleep(300);
+            //        retry++;
+            //    }                
+            //}
+            string currFile = txtCurrentAsmFilePath.Text;
+            if (File.Exists(currFile))
+            {                
+                File.Delete(currFile);
+            }
+            return true;
+        }
+        private void button2_Click(object sender, EventArgs e)
+        {
+            //unload and rename dll
+            UnloadAndDeleteDll();
         }
     }
 }

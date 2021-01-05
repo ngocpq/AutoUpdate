@@ -7,9 +7,10 @@ namespace Update.Utils
     {
         public static Version GetAssemblyVersion(string asmPath)
         {
-            System.Reflection.Assembly asm = System.Reflection.Assembly.ReflectionOnlyLoadFrom(asmPath);
-            return asm.GetName().Version;
+            AssemblyName assemblyName = AssemblyName.GetAssemblyName(asmPath);
+            return assemblyName.Version;
         }
+
         public static int CompareAssemblyVersion(string asmPath1, string asmPath2)
         {            
             Version v1 = GetAssemblyVersion(asmPath1);
@@ -24,7 +25,7 @@ namespace Update.Utils
         }
         public static Version GetCurrentVersion()
         {
-            return Assembly.GetEntryAssembly().GetName().Version;
+            return Assembly.GetExecutingAssembly().GetName().Version;
         }
     }
 }

@@ -13,8 +13,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UpdateServer", "UpdateServe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Update", "Update\Update.csproj", "{0346F818-EFF0-4BF8-85F9-B4DD40B7B5A9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoUpdaterTest", "AutoUpdaterTest\AutoUpdaterTest.csproj", "{1C66C24C-7488-4495-B778-F8B7232BFCCF}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,10 +39,6 @@ Global
 		{0346F818-EFF0-4BF8-85F9-B4DD40B7B5A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0346F818-EFF0-4BF8-85F9-B4DD40B7B5A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0346F818-EFF0-4BF8-85F9-B4DD40B7B5A9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1C66C24C-7488-4495-B778-F8B7232BFCCF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1C66C24C-7488-4495-B778-F8B7232BFCCF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1C66C24C-7488-4495-B778-F8B7232BFCCF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1C66C24C-7488-4495-B778-F8B7232BFCCF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

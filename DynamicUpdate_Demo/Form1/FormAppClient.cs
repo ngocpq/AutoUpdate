@@ -1,5 +1,5 @@
 ﻿using AutoUpdaterTest;
-using AutoUpdaterTest.Utils;
+using Update.Utils;
 using Bingo.Update;
 using System;
 using System.Collections.Generic;
