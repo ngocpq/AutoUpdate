@@ -47,7 +47,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppVersionInfo.cs" />
-    <Compile Include="ClientInfo.cs" />
+    <Compile Include="BusinessLogic\BLFactory.cs" />
+    <Compile Include="BusinessLogic\Implements\ClientsBL.cs" />
+    <Compile Include="BusinessLogic\Interfaces\IClientsBL.cs" />
+    <Compile Include="DataAccess\Interfaces\IClientsDA.cs" />
+    <Compile Include="DataAccess\MockDB\ClientsDA.cs" />
+    <Compile Include="Entities\ClientInfo.cs" />
+    <Compile Include="Entities\Command.cs" />
+    <Compile Include="DataAccess\DAFactory.cs" />
+    <Compile Include="DataAccess\MockDB\MockDatabase.cs" />
     <Compile Include="FormUpdateManager.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -71,7 +79,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <None Include="ClassDiagram1.cd" />
-    <None Include="Properties\DataSources\UpdaterWebServer.datasource" />
+    <None Include="Properties\DataSources\UpdateServer.Entities.ClientInfo.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

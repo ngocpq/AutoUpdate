@@ -34,7 +34,7 @@ namespace Form1
             this.btnCheckUpdate = new System.Windows.Forms.Button();
             this.txtUpdateServerUrl = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.btnCheckUpdateAuto = new System.Windows.Forms.Button();
+            this.btnGetServerCommands = new System.Windows.Forms.Button();
             this.timerCheckUpdate = new System.Windows.Forms.Timer(this.components);
             this.label2 = new System.Windows.Forms.Label();
             this.trackbar = new System.Windows.Forms.TrackBar();
@@ -76,15 +76,15 @@ namespace Form1
             this.label1.TabIndex = 2;
             this.label1.Text = "Update server URL:";
             // 
-            // btnCheckUpdateAuto
+            // btnGetServerCommands
             // 
-            this.btnCheckUpdateAuto.Location = new System.Drawing.Point(84, 95);
-            this.btnCheckUpdateAuto.Name = "btnCheckUpdateAuto";
-            this.btnCheckUpdateAuto.Size = new System.Drawing.Size(152, 30);
-            this.btnCheckUpdateAuto.TabIndex = 0;
-            this.btnCheckUpdateAuto.Text = "Start Auto Check update";
-            this.btnCheckUpdateAuto.UseVisualStyleBackColor = true;
-            this.btnCheckUpdateAuto.Click += new System.EventHandler(this.btnCheckUpdateAuto_Click);
+            this.btnGetServerCommands.Location = new System.Drawing.Point(84, 95);
+            this.btnGetServerCommands.Name = "btnGetServerCommands";
+            this.btnGetServerCommands.Size = new System.Drawing.Size(152, 30);
+            this.btnGetServerCommands.TabIndex = 0;
+            this.btnGetServerCommands.Text = "Start Get Commands";
+            this.btnGetServerCommands.UseVisualStyleBackColor = true;
+            this.btnGetServerCommands.Click += new System.EventHandler(this.btnGetServerCommands_Click);
             // 
             // timerCheckUpdate
             // 
@@ -204,7 +204,7 @@ namespace Form1
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.txtUpdateServerUrl);
-            this.Controls.Add(this.btnCheckUpdateAuto);
+            this.Controls.Add(this.btnGetServerCommands);
             this.Controls.Add(this.btnCheckUpdate);
             this.Name = "FormAppClient";
             this.Text = "Form 1: Form1";
@@ -221,7 +221,7 @@ namespace Form1
         private System.Windows.Forms.Button btnCheckUpdate;
         private System.Windows.Forms.TextBox txtUpdateServerUrl;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button btnCheckUpdateAuto;
+        private System.Windows.Forms.Button btnGetServerCommands;
         private System.Windows.Forms.Timer timerCheckUpdate;
         private System.Windows.Forms.Label label2;
         private Label lableTimeInterval;

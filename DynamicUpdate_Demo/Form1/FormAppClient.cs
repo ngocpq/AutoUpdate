@@ -22,6 +22,10 @@ namespace Form1
             InitializeComponent();
         }
 
+        MyWebClient webClient = null;
+        string SessionId = null;
+        string URL_ServerCommands = "http://localhost:8080/commands";
+
         private static Random random = new Random();
 
         static string CurrentVersion = AsmUtils.GetCurrentVersion().ToString();
@@ -51,10 +55,10 @@ namespace Form1
         }
 
 
-        private void btnCheckUpdateAuto_Click(object sender, EventArgs e)
+        private void btnGetServerCommands_Click(object sender, EventArgs e)
         {
             timerCheckUpdate.Enabled = !timerCheckUpdate.Enabled;
-            btnCheckUpdateAuto.Text = timerCheckUpdate.Enabled ? "Stop Auto Check Update" : "Start auto check update";
+            btnGetServerCommands.Text = timerCheckUpdate.Enabled ? "Stop Get Commands" : "Start Get Commands";
         }
 
         void checkUpdate(string url)
@@ -64,24 +68,13 @@ namespace Form1
             using (MyWebClient client = GetWebClient(BaseUri, BasicAuthXML))
             {
                 try
-                {
-                    webClient.Headers["AppVersion"] = CurrentVersion;
+                {                    
                     string xml = client.DownloadString(BaseUri);
                     richTextBox1.Text += xml;
                     richTextBox1.Text += Environment.NewLine + "-------------------------" + Environment.NewLine;
-                    
-                    //if (ParseUpdateInfoEvent == null)
-                    //{
-                    //    XmlSerializer xmlSerializer = new XmlSerializer(typeof(UpdateInfoEventArgs));
-                    //    XmlTextReader xmlTextReader = new XmlTextReader(new StringReader(xml)) { XmlResolver = null };
-                    //    args = (UpdateInfoEventArgs)xmlSerializer.Deserialize(xmlTextReader);
-                    //}
-                    //else
-                    //{
-                    //    ParseUpdateInfoEventArgs parseArgs = new ParseUpdateInfoEventArgs(xml);
-                    //    ParseUpdateInfoEvent(parseArgs);
-                    //    args = parseArgs.UpdateInfo;
-                    //}
+                    RichTextBoxRollToEnd();
+                    if (client.ResponseHeaders["SESSION_ID"]!=null)
+                        SessionId = client.ResponseHeaders["SESSION_ID"];                    
                 }catch(Exception ex)
                 {
                     richTextBox1.Text += "Cannot check for update. Error: " + ex.Message;
@@ -89,8 +82,38 @@ namespace Form1
             }
         }
 
-        static MyWebClient webClient = null;
-        internal static MyWebClient GetWebClient(Uri uri, IAuthentication basicAuthentication)
+        void RichTextBoxRollToEnd()
+        {   // set the current caret position to the end
+            richTextBox1.SelectionStart = richTextBox1.Text.Length;
+            // scroll it automatically
+            richTextBox1.ScrollToCaret();
+
+        }
+        void checkServerCommands()
+        {
+            string url = URL_ServerCommands;
+            Uri BaseUri = new Uri(url);
+
+            using (MyWebClient client = GetWebClient(BaseUri, BasicAuthXML))
+            {
+                try
+                {
+                    string xml = client.DownloadString(BaseUri);
+
+                    richTextBox1.Text += xml;
+                    richTextBox1.Text += Environment.NewLine + "-------------------------" + Environment.NewLine;
+                    RichTextBoxRollToEnd();
+                    if (client.ResponseHeaders["SESSION_ID"] != null)
+                        SessionId = client.ResponseHeaders["SESSION_ID"];
+                }
+                catch (Exception ex)
+                {
+                    richTextBox1.Text += "Cannot check for update. Error: " + ex.Message;
+                }
+            }
+        }
+
+        internal MyWebClient GetWebClient(Uri uri, IAuthentication basicAuthentication)
         {
             if (webClient == null)
                 webClient = new MyWebClient
@@ -109,17 +132,19 @@ namespace Form1
             }
             else
             {
-                basicAuthentication?.Apply(ref webClient);
-
-                webClient.Headers[HttpRequestHeader.UserAgent] = HttpUserAgent;
+                basicAuthentication?.Apply(ref webClient);                
             }
 
+            if (SessionId != null)
+                webClient.Headers["SESSION_ID"] = SessionId;
+            webClient.Headers[HttpRequestHeader.UserAgent] = HttpUserAgent;
+            webClient.Headers["AppVersion"] = CurrentVersion;
             return webClient;
         }
 
         private void timerCheckUpdate_Tick(object sender, EventArgs e)
         {
-            checkUpdate(txtUpdateServerUrl.Text);
+            checkServerCommands();
         }
 
         private void Form1_Load(object sender, EventArgs e)

@@ -14,7 +14,7 @@ namespace Form1
         protected override WebResponse GetWebResponse(WebRequest request, IAsyncResult result)
         {
             WebResponse webResponse = base.GetWebResponse(request, result);
-            ResponseUri = webResponse.ResponseUri;
+            ResponseUri = webResponse.ResponseUri;            
             return webResponse;
         }
     }
