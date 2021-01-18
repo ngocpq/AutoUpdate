@@ -103,22 +103,32 @@ namespace UpdateServer
 
         private void btnStartServer_Click(object sender, EventArgs e)
         {
-            String prefix = txtPrefix.Text;// "http://localhost:8080/";
+            StartServer();
+        }
+
+        void StartServer( )
+        {                        
             if (updaterWebServer == null)
             {
-                String rootDir = txtBaseDir.Text;
-                updaterWebServer = new UpdaterWebServer(rootDir,prefix);
+                String[] prefixes = txtPrefix.Text.Trim().Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+                for (int i = 0; i < prefixes.Length; i++)
+                    prefixes[i] = prefixes[i].Trim();
+
+                string rootDir = txtBaseDir.Text;
+                updaterWebServer = new UpdaterWebServer(rootDir, prefixes);
             }
             if (!updaterWebServer.isRunning)
             {
                 updaterWebServer.start();
-                //ws.RequestHandler += this.ProcessRequest;
                 updaterWebServer.HttpRequestListeners += this.UpdateRequestedLog;
-
+                updaterWebServer.ActiveClientUpdated += Ws_ActiveClientUpdated;
             }
-            richTxtMsg.Text+=Environment.NewLine+"Server is listenning to: "+ prefix;
-        }
+            StringBuilder sb = new StringBuilder();            
+            foreach (string p in updaterWebServer.Prefixes)
+                sb.Append(p + Environment.NewLine);
+            richTxtMsg.Text += Environment.NewLine + "Server is listenning to: " + Environment.NewLine + sb.ToString();
 
+        }
         private void btnStopServer_Click(object sender, EventArgs e)
         {
             if (updaterWebServer == null || !updaterWebServer.isRunning) { 
@@ -146,20 +156,12 @@ namespace UpdateServer
         private void FormUpdateManager_Load(object sender, EventArgs e)
         {
             txtBaseDir.Text = AppDomain.CurrentDomain.BaseDirectory;
-            String prefix = txtPrefix.Text;// "http://localhost:8080/";
-            if (updaterWebServer == null)
-            {
-                String rootDir = txtBaseDir.Text;
-                updaterWebServer = new UpdaterWebServer(rootDir,prefix);
-            }
-            if (!updaterWebServer.isRunning)
-            {
-                updaterWebServer.start();
-                updaterWebServer.HttpRequestListeners += this.UpdateRequestedLog;
-                updaterWebServer.ActiveClientUpdated += Ws_ActiveClientUpdated;
-            }
-            richTxtMsg.Text += Environment.NewLine + "Server is listenning to: " + prefix;
-            
+            txtPrefix.Text = "http://localhost:8080/";
+            richTxtMsg.Text = "Server address format <http://address1>;<http://address2>. Example: http://localhost:8080/;http://YourInternetIP:8080/;";
+            richTxtMsg.Text += Environment.NewLine + "Note: run the server program as Admin, config firewall on server's machine.";
+            richTxtMsg.Text += Environment.NewLine + "\t- Update infor path: http://yourhost:port/VersionInfo";
+            richTxtMsg.Text += Environment.NewLine + "\t- Server commands path: http://yourhost:port/Commands";
+            richTxtMsg.Text += Environment.NewLine + "Click the button 'Start Server' to start listenning";
         }
 
         private void Ws_ActiveClientUpdated(ClientInfo client, object source)
@@ -167,10 +169,11 @@ namespace UpdateServer
             //this.timer1.Start();
         }
 
+        long timeout = 1; //minutes
         private void timer1_Tick(object sender, EventArgs e)
         {
             //RichTextBoxRollToEnd();
-            this.clientInfoBindingSource.DataSource = clientsBL.GetActiveClients();
+            this.clientInfoBindingSource.DataSource = clientsBL.GetActiveClients(timeout);
             this.clientInfoBindingSource.ResetBindings(true);
         }
 

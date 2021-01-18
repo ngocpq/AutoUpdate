@@ -86,5 +86,18 @@ namespace UpdateServer
             _listener.Close();
         }
 
+        public string[] Prefixes
+        {
+            get
+            {
+                string[] prefixes = new string[_listener.Prefixes.Count];
+                int i = 0;
+                foreach (string p in _listener.Prefixes)
+                {
+                    prefixes[i++] = p;
+                }
+                return prefixes;
+            }
+        }
     }
 }

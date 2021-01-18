@@ -65,7 +65,7 @@ namespace Form1
             this.txtUpdateServerUrl.Name = "txtUpdateServerUrl";
             this.txtUpdateServerUrl.Size = new System.Drawing.Size(221, 20);
             this.txtUpdateServerUrl.TabIndex = 1;
-            this.txtUpdateServerUrl.Text = "http://localhost:8080/VersionInfo";
+            this.txtUpdateServerUrl.Text = "http://localhost:8080";
             // 
             // label1
             // 

@@ -10,6 +10,7 @@ namespace UpdateServer.BusinessLogic
     interface IClientsBL
     {
         IList<ClientInfo> GetActiveClients();
+        IList<ClientInfo> GetActiveClients(long timeout);
 
         List<Command> GetPendingCommands(ClientInfo client);
 

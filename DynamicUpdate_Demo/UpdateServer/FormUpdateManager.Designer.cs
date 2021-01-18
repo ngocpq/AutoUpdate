@@ -42,9 +42,16 @@
             this.richTxtMsg = new System.Windows.Forms.RichTextBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.dataGridView2 = new System.Windows.Forms.DataGridView();
+            this.nameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.parametersDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.pendingCommandsBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.clientInfoBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.PendingCommandsCount = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.txtParamValue = new System.Windows.Forms.TextBox();
@@ -57,13 +64,6 @@
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.nameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.parametersDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.clientInfoBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -75,10 +75,10 @@
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pendingCommandsBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.clientInfoBindingSource)).BeginInit();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.clientInfoBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -208,7 +208,7 @@
             this.richTxtMsg.Name = "richTxtMsg";
             this.richTxtMsg.Size = new System.Drawing.Size(862, 120);
             this.richTxtMsg.TabIndex = 1;
-            this.richTxtMsg.Text = "Update infor is available at: http://localhost:8080/VersionInfo";
+            this.richTxtMsg.Text = "";
             // 
             // groupBox3
             // 
@@ -236,10 +236,26 @@
             this.dataGridView2.Size = new System.Drawing.Size(644, 105);
             this.dataGridView2.TabIndex = 1;
             // 
+            // nameDataGridViewTextBoxColumn
+            // 
+            this.nameDataGridViewTextBoxColumn.DataPropertyName = "Name";
+            this.nameDataGridViewTextBoxColumn.HeaderText = "Name";
+            this.nameDataGridViewTextBoxColumn.Name = "nameDataGridViewTextBoxColumn";
+            // 
+            // parametersDataGridViewTextBoxColumn
+            // 
+            this.parametersDataGridViewTextBoxColumn.DataPropertyName = "Parameters";
+            this.parametersDataGridViewTextBoxColumn.HeaderText = "Parameters";
+            this.parametersDataGridViewTextBoxColumn.Name = "parametersDataGridViewTextBoxColumn";
+            // 
             // pendingCommandsBindingSource
             // 
             this.pendingCommandsBindingSource.DataMember = "PendingCommands";
             this.pendingCommandsBindingSource.DataSource = this.clientInfoBindingSource;
+            // 
+            // clientInfoBindingSource
+            // 
+            this.clientInfoBindingSource.DataSource = typeof(UpdateServer.Entities.ClientInfo);
             // 
             // groupBox2
             // 
@@ -274,6 +290,34 @@
             this.dataGridView1.ReadOnly = true;
             this.dataGridView1.Size = new System.Drawing.Size(650, 219);
             this.dataGridView1.TabIndex = 0;
+            // 
+            // dataGridViewTextBoxColumn2
+            // 
+            this.dataGridViewTextBoxColumn2.DataPropertyName = "SessionId";
+            this.dataGridViewTextBoxColumn2.HeaderText = "SessionId";
+            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
+            this.dataGridViewTextBoxColumn2.ReadOnly = true;
+            // 
+            // dataGridViewTextBoxColumn1
+            // 
+            this.dataGridViewTextBoxColumn1.DataPropertyName = "UserId";
+            this.dataGridViewTextBoxColumn1.HeaderText = "UserId";
+            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            this.dataGridViewTextBoxColumn1.ReadOnly = true;
+            // 
+            // dataGridViewTextBoxColumn4
+            // 
+            this.dataGridViewTextBoxColumn4.DataPropertyName = "Version";
+            this.dataGridViewTextBoxColumn4.HeaderText = "Version";
+            this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
+            this.dataGridViewTextBoxColumn4.ReadOnly = true;
+            // 
+            // dataGridViewTextBoxColumn3
+            // 
+            this.dataGridViewTextBoxColumn3.DataPropertyName = "LastActiveTime";
+            this.dataGridViewTextBoxColumn3.HeaderText = "LastActiveTime";
+            this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
+            this.dataGridViewTextBoxColumn3.ReadOnly = true;
             // 
             // PendingCommandsCount
             // 
@@ -383,50 +427,6 @@
             this.timer1.Enabled = true;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
-            // nameDataGridViewTextBoxColumn
-            // 
-            this.nameDataGridViewTextBoxColumn.DataPropertyName = "Name";
-            this.nameDataGridViewTextBoxColumn.HeaderText = "Name";
-            this.nameDataGridViewTextBoxColumn.Name = "nameDataGridViewTextBoxColumn";
-            // 
-            // parametersDataGridViewTextBoxColumn
-            // 
-            this.parametersDataGridViewTextBoxColumn.DataPropertyName = "Parameters";
-            this.parametersDataGridViewTextBoxColumn.HeaderText = "Parameters";
-            this.parametersDataGridViewTextBoxColumn.Name = "parametersDataGridViewTextBoxColumn";
-            // 
-            // clientInfoBindingSource
-            // 
-            this.clientInfoBindingSource.DataSource = typeof(UpdateServer.Entities.ClientInfo);
-            // 
-            // dataGridViewTextBoxColumn2
-            // 
-            this.dataGridViewTextBoxColumn2.DataPropertyName = "SessionId";
-            this.dataGridViewTextBoxColumn2.HeaderText = "SessionId";
-            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
-            this.dataGridViewTextBoxColumn2.ReadOnly = true;
-            // 
-            // dataGridViewTextBoxColumn1
-            // 
-            this.dataGridViewTextBoxColumn1.DataPropertyName = "UserId";
-            this.dataGridViewTextBoxColumn1.HeaderText = "UserId";
-            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
-            this.dataGridViewTextBoxColumn1.ReadOnly = true;
-            // 
-            // dataGridViewTextBoxColumn4
-            // 
-            this.dataGridViewTextBoxColumn4.DataPropertyName = "Version";
-            this.dataGridViewTextBoxColumn4.HeaderText = "Version";
-            this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
-            this.dataGridViewTextBoxColumn4.ReadOnly = true;
-            // 
-            // dataGridViewTextBoxColumn3
-            // 
-            this.dataGridViewTextBoxColumn3.DataPropertyName = "LastActiveTime";
-            this.dataGridViewTextBoxColumn3.HeaderText = "LastActiveTime";
-            this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
-            this.dataGridViewTextBoxColumn3.ReadOnly = true;
-            // 
             // FormUpdateManager
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -448,11 +448,11 @@
             this.groupBox3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pendingCommandsBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.clientInfoBindingSource)).EndInit();
             this.groupBox2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.clientInfoBindingSource)).EndInit();
             this.ResumeLayout(false);
 
         }

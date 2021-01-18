@@ -98,10 +98,9 @@ namespace UpdateServer
             if (client != null)
             {
                 updateActiveClients(client);
-            }
-
-            response.Headers["SESSION_ID"] = client.SessionId;
-            response.SetCookie(new Cookie("SESSION_ID", client.SessionId));
+                response.Headers["SESSION_ID"] = client.SessionId;
+                response.SetCookie(new Cookie("SESSION_ID", client.SessionId));
+            }            
 
             if (IsRequestServerCommands(request))
             {

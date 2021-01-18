@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UpdateServer.Entities;
 
 namespace UpdateServer.BusinessLogic.Implements
@@ -28,6 +29,18 @@ namespace UpdateServer.BusinessLogic.Implements
         {
             //TODO: filter by active time
             return clientsDA.GetClients();
+        }
+
+        public IList<ClientInfo> GetActiveClients(long timeoutMinutes)
+        {
+            List<ClientInfo> rs = new List<ClientInfo>();
+            DateTime now = DateTime.Now;
+            foreach (ClientInfo c in clientsDA.GetClients())
+            {
+                if (c.LastActiveTime.AddMinutes(timeoutMinutes).CompareTo(now) >= 0)
+                    rs.Add(c);
+            }
+            return rs;
         }
 
         public List<Command> GetPendingCommands(ClientInfo client)

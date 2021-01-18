@@ -24,7 +24,9 @@ namespace Form1
 
         MyWebClient webClient = null;
         string SessionId = null;
-        string URL_ServerCommands = "http://localhost:8080/commands";
+
+        string RelativeUri_UpdateInfo = "/VersionInfo";
+        string RelativeUri_ServerCommands = "/commands";
 
         private static Random random = new Random();
 
@@ -45,13 +47,10 @@ namespace Form1
         private static NetworkCredential FtpCredentials = new NetworkCredential("user","pass");
 
         private void btnCheckUpdate_Click(object sender, EventArgs e)
-        {
-            string AppCastURL = txtUpdateServerUrl.Text;
-            Uri BaseUri = new Uri(AppCastURL);
-
-            checkUpdate(AppCastURL);
-            
-            MessageBox.Show("CheckUpdate finished");            
+        {            
+            checkUpdate();
+            RichTextBoxRollToEnd();
+            //MessageBox.Show("CheckUpdate finished");            
         }
 
 
@@ -61,25 +60,26 @@ namespace Form1
             btnGetServerCommands.Text = timerCheckUpdate.Enabled ? "Stop Get Commands" : "Start Get Commands";
         }
 
-        void checkUpdate(string url)
+        void checkUpdate()
         {
-            Uri BaseUri = new Uri(url);
+            string hostAddr = txtUpdateServerUrl.Text.Trim();
+            Uri baseUri = new Uri(hostAddr);
+            Uri uri = new Uri(baseUri, RelativeUri_UpdateInfo);
 
-            using (MyWebClient client = GetWebClient(BaseUri, BasicAuthXML))
+            using (MyWebClient client = GetWebClient(uri, BasicAuthXML))
             {
                 try
                 {                    
-                    string xml = client.DownloadString(BaseUri);
+                    string xml = client.DownloadString(uri);
                     richTextBox1.Text += xml;
-                    richTextBox1.Text += Environment.NewLine + "-------------------------" + Environment.NewLine;
-                    RichTextBoxRollToEnd();
+                    richTextBox1.Text += Environment.NewLine + "-------------------------" + Environment.NewLine;                    
                     if (client.ResponseHeaders["SESSION_ID"]!=null)
                         SessionId = client.ResponseHeaders["SESSION_ID"];                    
                 }catch(Exception ex)
                 {
-                    richTextBox1.Text += "Cannot check for update. Error: " + ex.Message;
+                    richTextBox1.Text += Environment.NewLine+ "Cannot check for update. Error: " + ex.Message;
                 }
-            }
+            }            
         }
 
         void RichTextBoxRollToEnd()
@@ -91,26 +91,28 @@ namespace Form1
         }
         void checkServerCommands()
         {
-            string url = URL_ServerCommands;
-            Uri BaseUri = new Uri(url);
-
-            using (MyWebClient client = GetWebClient(BaseUri, BasicAuthXML))
+            
+            string hostAddr = txtUpdateServerUrl.Text.Trim();
+            Uri baseUri = new Uri(hostAddr);
+            Uri uri = new Uri(baseUri, RelativeUri_ServerCommands);
+            using (MyWebClient client = GetWebClient(uri, BasicAuthXML))
             {
                 try
                 {
-                    string xml = client.DownloadString(BaseUri);
+                    string xml = client.DownloadString(uri);
 
                     richTextBox1.Text += xml;
-                    richTextBox1.Text += Environment.NewLine + "-------------------------" + Environment.NewLine;
-                    RichTextBoxRollToEnd();
+                    richTextBox1.Text += Environment.NewLine + "-------------------------" + Environment.NewLine;                    
                     if (client.ResponseHeaders["SESSION_ID"] != null)
                         SessionId = client.ResponseHeaders["SESSION_ID"];
                 }
                 catch (Exception ex)
                 {
-                    richTextBox1.Text += "Cannot check for update. Error: " + ex.Message;
+                    richTextBox1.Text += Environment.NewLine + "Cannot check for server commands. Error: " + ex.Message;
+                    btnGetServerCommands_Click(null, null);
                 }
             }
+            RichTextBoxRollToEnd();
         }
 
         internal MyWebClient GetWebClient(Uri uri, IAuthentication basicAuthentication)
