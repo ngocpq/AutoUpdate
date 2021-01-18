@@ -31,7 +31,6 @@ namespace Form1
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.btnCheckUpdate = new System.Windows.Forms.Button();
             this.txtUpdateServerUrl = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.btnGetServerCommands = new System.Windows.Forms.Button();
@@ -43,25 +42,16 @@ namespace Form1
             this.label3 = new System.Windows.Forms.Label();
             this.lblCurrentVersion = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
+            this.lblLatestVersion = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.lblLastCheckedTime = new System.Windows.Forms.Label();
+            this.btnCheckUpdateAuto = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.trackbar)).BeginInit();
             this.SuspendLayout();
             // 
-            // btnCheckUpdate
-            // 
-            this.btnCheckUpdate.Location = new System.Drawing.Point(84, 28);
-            this.btnCheckUpdate.Name = "btnCheckUpdate";
-            this.btnCheckUpdate.Size = new System.Drawing.Size(152, 43);
-            this.btnCheckUpdate.TabIndex = 0;
-            this.btnCheckUpdate.Text = "Check update manual";
-            this.btnCheckUpdate.UseVisualStyleBackColor = true;
-            this.btnCheckUpdate.Click += new System.EventHandler(this.btnCheckUpdate_Click);
-            // 
             // txtUpdateServerUrl
             // 
-            this.txtUpdateServerUrl.Location = new System.Drawing.Point(328, 51);
+            this.txtUpdateServerUrl.Location = new System.Drawing.Point(159, 51);
             this.txtUpdateServerUrl.Name = "txtUpdateServerUrl";
             this.txtUpdateServerUrl.Size = new System.Drawing.Size(221, 20);
             this.txtUpdateServerUrl.TabIndex = 1;
@@ -70,7 +60,7 @@ namespace Form1
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(326, 28);
+            this.label1.Location = new System.Drawing.Point(157, 28);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(102, 13);
             this.label1.TabIndex = 2;
@@ -78,9 +68,9 @@ namespace Form1
             // 
             // btnGetServerCommands
             // 
-            this.btnGetServerCommands.Location = new System.Drawing.Point(84, 95);
+            this.btnGetServerCommands.Location = new System.Drawing.Point(33, 95);
             this.btnGetServerCommands.Name = "btnGetServerCommands";
-            this.btnGetServerCommands.Size = new System.Drawing.Size(152, 30);
+            this.btnGetServerCommands.Size = new System.Drawing.Size(90, 43);
             this.btnGetServerCommands.TabIndex = 0;
             this.btnGetServerCommands.Text = "Start Get Commands";
             this.btnGetServerCommands.UseVisualStyleBackColor = true;
@@ -94,7 +84,7 @@ namespace Form1
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(340, 95);
+            this.label2.Location = new System.Drawing.Point(171, 95);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(88, 13);
             this.label2.TabIndex = 2;
@@ -103,7 +93,7 @@ namespace Form1
             // trackbar
             // 
             this.trackbar.LargeChange = 5000;
-            this.trackbar.Location = new System.Drawing.Point(328, 108);
+            this.trackbar.Location = new System.Drawing.Point(159, 108);
             this.trackbar.Maximum = 60000;
             this.trackbar.Minimum = 5000;
             this.trackbar.Name = "trackbar";
@@ -116,7 +106,7 @@ namespace Form1
             // lableTimeInterval
             // 
             this.lableTimeInterval.AutoSize = true;
-            this.lableTimeInterval.Location = new System.Drawing.Point(434, 95);
+            this.lableTimeInterval.Location = new System.Drawing.Point(265, 95);
             this.lableTimeInterval.Name = "lableTimeInterval";
             this.lableTimeInterval.Size = new System.Drawing.Size(13, 13);
             this.lableTimeInterval.TabIndex = 2;
@@ -136,7 +126,7 @@ namespace Form1
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(631, 28);
+            this.label3.Location = new System.Drawing.Point(406, 41);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(82, 13);
             this.label3.TabIndex = 2;
@@ -145,7 +135,7 @@ namespace Form1
             // lblCurrentVersion
             // 
             this.lblCurrentVersion.AutoSize = true;
-            this.lblCurrentVersion.Location = new System.Drawing.Point(720, 28);
+            this.lblCurrentVersion.Location = new System.Drawing.Point(495, 41);
             this.lblCurrentVersion.Name = "lblCurrentVersion";
             this.lblCurrentVersion.Size = new System.Drawing.Size(42, 13);
             this.lblCurrentVersion.TabIndex = 2;
@@ -154,25 +144,25 @@ namespace Form1
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(631, 69);
+            this.label4.Location = new System.Drawing.Point(406, 82);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(76, 13);
             this.label4.TabIndex = 2;
             this.label4.Text = "Latest version:";
             // 
-            // label5
+            // lblLatestVersion
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(720, 69);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(73, 13);
-            this.label5.TabIndex = 2;
-            this.label5.Text = "Latest version";
+            this.lblLatestVersion.AutoSize = true;
+            this.lblLatestVersion.Location = new System.Drawing.Point(495, 82);
+            this.lblLatestVersion.Name = "lblLatestVersion";
+            this.lblLatestVersion.Size = new System.Drawing.Size(73, 13);
+            this.lblLatestVersion.TabIndex = 2;
+            this.lblLatestVersion.Text = "Latest version";
             // 
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(631, 112);
+            this.label6.Location = new System.Drawing.Point(406, 125);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(75, 13);
             this.label6.TabIndex = 2;
@@ -181,11 +171,21 @@ namespace Form1
             // lblLastCheckedTime
             // 
             this.lblLastCheckedTime.AutoSize = true;
-            this.lblLastCheckedTime.Location = new System.Drawing.Point(720, 112);
+            this.lblLastCheckedTime.Location = new System.Drawing.Point(495, 125);
             this.lblLastCheckedTime.Name = "lblLastCheckedTime";
             this.lblLastCheckedTime.Size = new System.Drawing.Size(72, 13);
             this.lblLastCheckedTime.TabIndex = 2;
             this.lblLastCheckedTime.Text = "Checked time";
+            // 
+            // btnCheckUpdateAuto
+            // 
+            this.btnCheckUpdateAuto.Location = new System.Drawing.Point(33, 28);
+            this.btnCheckUpdateAuto.Name = "btnCheckUpdateAuto";
+            this.btnCheckUpdateAuto.Size = new System.Drawing.Size(90, 43);
+            this.btnCheckUpdateAuto.TabIndex = 0;
+            this.btnCheckUpdateAuto.Text = "Check update";
+            this.btnCheckUpdateAuto.UseVisualStyleBackColor = true;
+            this.btnCheckUpdateAuto.Click += new System.EventHandler(this.btnCheckUpdateAuto_Click);
             // 
             // FormAppClient
             // 
@@ -197,7 +197,7 @@ namespace Form1
             this.Controls.Add(this.lableTimeInterval);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.lblLastCheckedTime);
-            this.Controls.Add(this.label5);
+            this.Controls.Add(this.lblLatestVersion);
             this.Controls.Add(this.lblCurrentVersion);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label4);
@@ -205,7 +205,7 @@ namespace Form1
             this.Controls.Add(this.label1);
             this.Controls.Add(this.txtUpdateServerUrl);
             this.Controls.Add(this.btnGetServerCommands);
-            this.Controls.Add(this.btnCheckUpdate);
+            this.Controls.Add(this.btnCheckUpdateAuto);
             this.Name = "FormAppClient";
             this.Text = "Form 1: Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -218,7 +218,6 @@ namespace Form1
         #endregion
 
         TrackBar trackbar;
-        private System.Windows.Forms.Button btnCheckUpdate;
         private System.Windows.Forms.TextBox txtUpdateServerUrl;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btnGetServerCommands;
@@ -229,9 +228,10 @@ namespace Form1
         private Label label3;
         private Label lblCurrentVersion;
         private Label label4;
-        private Label label5;
+        private Label lblLatestVersion;
         private Label label6;
         private Label lblLastCheckedTime;
+        private Button btnCheckUpdateAuto;
     }
 }
 

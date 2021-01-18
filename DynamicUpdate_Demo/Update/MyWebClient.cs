@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Net;
 
-namespace Form1
+namespace Bingo.Update
 {
     public class MyWebClient : WebClient
     {

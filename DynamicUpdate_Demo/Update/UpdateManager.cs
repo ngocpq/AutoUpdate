@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Windows.Forms;
 using System.Diagnostics;
 using Bingo.Update.Downloads;
+using System.Net.Cache;
 
 namespace Bingo.Update
 {   
@@ -162,8 +163,8 @@ namespace Bingo.Update
             if (Notifier != null)
                 Notifier.EndUpdate();
             return success;
-        }              
-        
+        }        
+
         public static void CopyDirectory(string source, string dest,bool contiueOnError)
         {
             if (source == dest)
@@ -275,7 +276,7 @@ namespace Bingo.Update
 
         public static UpdateInfo GetUpdateInfoFromFile(string filePath)
         {
-            string ext = System.IO.Path.GetExtension(filePath);
+            string ext = System.IO.Path.GetExtension(filePath).ToLower();
             switch (ext)
             {
                 case ".xml":
@@ -288,6 +289,7 @@ namespace Bingo.Update
                     throw new Exception("UpdateInfoFile is not supported");
             }
         }
+
         public static Version GetCurrentVersion()
         {
             return Assembly.GetEntryAssembly().GetName().Version;            
@@ -302,6 +304,7 @@ namespace Bingo.Update
         {
             return CheckForUpdate(true);
         }
+
         public static bool CheckForUpdate(bool Confirm)
         {
             if (!NewerVersionExisted())
@@ -331,6 +334,7 @@ namespace Bingo.Update
         {
             return GetLastVersion().CompareTo(GetCurrentVersion()) == 1;
         }
+
         /// <summary>
         /// Kiem tra assembly co can update hay khong
         /// </summary>
@@ -411,5 +415,6 @@ namespace Bingo.Update
             Process.Start(exePath);
             Application.Exit();
         }
+
     }
 }

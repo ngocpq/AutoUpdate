@@ -14,7 +14,7 @@ namespace Bingo.Update
         public Manifest(string path)
         {
             if (path == null)
-                throw new Exception("Địa chỉ file manifest bằng null");
+                throw new Exception("file path is null");
             FilePath = path;
             DirPath = System.IO.Path.GetDirectoryName(path);
             Load(path);
@@ -50,6 +50,24 @@ namespace Bingo.Update
             foreach (XmlNode node in root.SelectNodes("/asmv1:assembly/asmv2:dependency",NamespaceManager))
             {
                 Dependencys.Add(new DependencyElement(this,node,NamespaceManager));
+            }
+        }
+
+        public virtual void LoadXml(string xml)
+        {
+            //Stream reader = File.OpenRead(path);
+            xmlDoc = new XmlDocument();
+            xmlDoc.LoadXml(xml);
+            XmlElement root = xmlDoc.DocumentElement;
+            InitNamespaceManager();
+            XmlNode assemblyIdentityNode = root.SelectSingleNode("/asmv1:assembly/asmv1:assemblyIdentity", NamespaceManager);
+
+            AssemblyIdentity = new AssemblyIdentityElement(assemblyIdentityNode);
+            Dependencys = new List<DependencyElement>();
+
+            foreach (XmlNode node in root.SelectNodes("/asmv1:assembly/asmv2:dependency", NamespaceManager))
+            {
+                Dependencys.Add(new DependencyElement(this, node, NamespaceManager));
             }
         }
     }

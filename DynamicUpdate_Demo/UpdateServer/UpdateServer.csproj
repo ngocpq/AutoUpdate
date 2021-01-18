@@ -50,6 +50,7 @@
     <Compile Include="BusinessLogic\BLFactory.cs" />
     <Compile Include="BusinessLogic\Implements\ClientsBL.cs" />
     <Compile Include="BusinessLogic\Interfaces\IClientsBL.cs" />
+    <Compile Include="BusinessLogic\Interfaces\IUpdaterWebServer.cs" />
     <Compile Include="DataAccess\Interfaces\IClientsDA.cs" />
     <Compile Include="DataAccess\MockDB\ClientsDA.cs" />
     <Compile Include="Entities\ClientInfo.cs" />

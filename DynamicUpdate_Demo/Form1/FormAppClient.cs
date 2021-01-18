@@ -12,6 +12,8 @@ using System.Net.Cache;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Update;
+using System.IO;
 
 namespace Form1
 {
@@ -151,6 +153,9 @@ namespace Form1
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            lblCurrentVersion.Text = AsmUtils.GetAssemblyVersion(mainAsmFilePath).ToString();
+            //lblCurrentVersion.Text = AsmUtils.GetCurrentVersion().ToString();
+
             //txtUpdateServerUrl.Text = AppSettings.UpdateUrl;
             this.lableTimeInterval.DataBindings.Add("Text", this.trackbar, "Value");            
         }
@@ -159,6 +164,52 @@ namespace Form1
         {
             timerCheckUpdate.Interval = trackbar.Value;
         }
-        
+
+        string mainAsmFilePath = System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName;
+
+        private void btnCheckUpdateAuto_Click(object sender, EventArgs e)
+        {                        
+            string hostAddr = txtUpdateServerUrl.Text.Trim();
+            Uri baseUri = new Uri(hostAddr);
+            
+            string deploymentFile = Path.GetFileNameWithoutExtension(mainAsmFilePath)+".Application";
+
+            Uri uri = new Uri(baseUri, deploymentFile);            
+
+            using (MyWebClient client = GetWebClient(uri, BasicAuthXML))
+            {
+                try
+                {
+                    string xml = client.DownloadString(uri);                    
+                    richTextBox1.Text += xml;
+                    richTextBox1.Text += Environment.NewLine + "-------------------------" + Environment.NewLine;
+                    if (client.ResponseHeaders["SESSION_ID"] != null)
+                        SessionId = client.ResponseHeaders["SESSION_ID"];
+
+                    //string ext = System.IO.Path.GetExtension(uri.AbsoluteUri);
+                    string fileName = System.IO.Path.GetFileName(uri.AbsoluteUri);
+                    string tempDir = Path.GetTempPath();
+                    string filePath = Path.Combine(tempDir, fileName);
+
+                    File.WriteAllText(filePath, xml);
+                    UpdateManager.CheckForUpdateBaseCode = filePath;
+                    UpdateInfo updateInfo = UpdateManager.GetUpdateInfoFromFile(filePath);
+                    lblLatestVersion.Text = updateInfo.CurrentVersion.ToString();
+                    lblLastCheckedTime.Text = DateTime.Now.ToString("hh:mm:ss");                    
+                    if (AsmUtils.CompareVersion(lblCurrentVersion.Text,updateInfo.CurrentVersion.ToString()) == -1)
+                    {
+                        MessageBox.Show("New update existed!");
+                        richTextBox1.Text += "New update available. Version: " + updateInfo.CurrentVersion;
+                    }
+                    else
+                        richTextBox1.Text += "No new update.";
+
+                }
+                catch (Exception ex)
+                {
+                    richTextBox1.Text += Environment.NewLine + "Cannot check for update. Error: " + ex.Message;
+                }
+            }
+        }
     }
 }
