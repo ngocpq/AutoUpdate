@@ -1,9 +1,9 @@
-# AutoUpdate
+# Readme
 
-This repository contains sample code to test the feasibility of our idea as well as supporting libraries.
+This repository contains sample code to test the feasibility of our idea, classes designs, as well as supporting libraries.
 
 Our implementing code:
-- [DynamicUpdate_Demo](https://github.com/ngocpq/AutoUpdate/tree/master/DynamicUpdate_Demo) folder: contains all of our source code. It contains several sub-projects. You can open all these project in Visual studio by openning the solution file DynamicUpdate_Demo.sln 
+- [DynamicUpdate_Demo](https://github.com/ngocpq/AutoUpdate/tree/master/DynamicUpdate_Demo) folder: contains all of our source code. It contains several sub-projects. You can open all these projects in Visual studio by openning the solution file DynamicUpdate_Demo.sln 
 
 Branches:
 - [master](https://github.com/ngocpq/AutoUpdate/tree/master) branch: contains the most stable version that can be ran.
