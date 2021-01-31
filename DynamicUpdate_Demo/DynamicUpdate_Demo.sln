@@ -17,7 +17,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommonLib", "CommonLib\Comm
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkspaceManager", "WorkspaceManager\WorkspaceManager.csproj", "{EFF0B373-D777-45C2-8A19-D79936EE92BF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoUpdaterTest", "AutoUpdaterTest\AutoUpdaterTest.csproj", "{1C66C24C-7488-4495-B778-F8B7232BFCCF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoUpdater", "AutoUpdater\AutoUpdater.csproj", "{D7F4638D-1510-4297-979C-6CF3D7FF1B4C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,10 +53,10 @@ Global
 		{EFF0B373-D777-45C2-8A19-D79936EE92BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EFF0B373-D777-45C2-8A19-D79936EE92BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EFF0B373-D777-45C2-8A19-D79936EE92BF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1C66C24C-7488-4495-B778-F8B7232BFCCF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1C66C24C-7488-4495-B778-F8B7232BFCCF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1C66C24C-7488-4495-B778-F8B7232BFCCF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1C66C24C-7488-4495-B778-F8B7232BFCCF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D7F4638D-1510-4297-979C-6CF3D7FF1B4C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D7F4638D-1510-4297-979C-6CF3D7FF1B4C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D7F4638D-1510-4297-979C-6CF3D7FF1B4C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D7F4638D-1510-4297-979C-6CF3D7FF1B4C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
