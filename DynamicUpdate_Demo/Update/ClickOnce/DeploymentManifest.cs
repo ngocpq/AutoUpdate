@@ -33,7 +33,7 @@ namespace Bingo.Update
             string subPath = Dependencys[0].DependencyAssembly.CodeBase;
             string leftPath = System.IO.Path.GetDirectoryName(this.FilePath);
             string filePath = System.IO.Path.Combine(leftPath, subPath);            
-            ApplicationManifest = new ApplicationManifest(filePath);
+            //ApplicationManifest = new ApplicationManifest(filePath);
         }
         #endregion
     }

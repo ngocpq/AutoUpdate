@@ -3,22 +3,8 @@
   <Class Name="UpdateServer.FormUpdateManager" Collapsed="true">
     <Position X="6" Y="4" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAgDQAACAAAgAAABGgACAGEMwBAwBAARJMACAABBg=</HashCode>
+      <HashCode>EQSEACQIADAIApigIAHkECOCEBggJQEgBCJDAChAABQ=</HashCode>
       <FileName>FormUpdateManager.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="UpdateServer.ClientInfo">
-    <Position X="2" Y="2.25" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>IAAAAAAAAAAAAAQAAAAAAAAIAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>ClientInfo.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="UpdateServer.UpdaterServerView" Collapsed="true">
-    <Position X="1.75" Y="4" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAQAAAAAIAAAAAAAAAAAQAAAAAAAAAAAAAA=</HashCode>
-      <FileName>UpdaterWebServer.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Font Name="Segoe UI" Size="9" />

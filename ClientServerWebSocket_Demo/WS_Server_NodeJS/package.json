@@ -1,0 +1,9 @@
+{
+  "name": "node-js_ws_server",
+  "version": "0.0.0",
+  "description": "NodeJS_WS_Server",
+  "main": "server.js",
+  "author": {
+    "name": ""
+  }
+}

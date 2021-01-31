@@ -93,6 +93,10 @@
     <Compile Include="Commons\IUpdateNotifier.cs" />
     <Compile Include="ClickOnce\Manifest.cs" />
     <Compile Include="ClickOnce\ManifestElement.cs" />
+    <Compile Include="IAuthentication.cs" />
+    <Compile Include="MyWebClient.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Test.cs">
       <SubType>Form</SubType>

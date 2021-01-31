@@ -12,8 +12,9 @@ namespace Bingo.Update
         public ClickOnceUpdateInfo(string deploymentManifestFilePath)            
         {
             deployManifest = new DeploymentManifest(deploymentManifestFilePath);
-            DownloadDirPath = deployManifest.ApplicationManifest.DirPath; //System.IO.Path.GetDirectoryName(deployManifest.Deployment.deploymentProvider.codebase);
             CurrentVersion = new Version(deployManifest.AssemblyIdentity.version);
+            
+            /*DownloadDirPath = deployManifest.ApplicationManifest.DirPath; //System.IO.Path.GetDirectoryName(deployManifest.Deployment.deploymentProvider.codebase);            
             //TODO: remove hardcode
             UpdateEntryPoint = UpdateManager.DefaultUpdateEnpoint;// "AutoUpdater.exe";
             UpdateAdditionPara = " ";
@@ -58,7 +59,7 @@ namespace Bingo.Update
                 if (MapFileExtensions)
                     fileName += ".deploy";
                 UpdateFileList.Add(new UpdateFile(System.IO.Path.Combine(DownloadDirPath, fileName), destDir, destName));
-            }
+            }*/
             //Lay danh sach file cua updater
             UpdaterFiles = new List<UpdateFile>();
         }
