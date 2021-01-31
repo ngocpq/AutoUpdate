@@ -157,7 +157,9 @@ namespace Form1
             //lblCurrentVersion.Text = AsmUtils.GetCurrentVersion().ToString();
 
             //txtUpdateServerUrl.Text = AppSettings.UpdateUrl;
-            this.lableTimeInterval.DataBindings.Add("Text", this.trackbar, "Value");            
+            this.lableTimeInterval.DataBindings.Add("Text", this.trackbar, "Value");
+
+            this.btnGetServerCommands.PerformClick();
         }
 
         private void trackbar_ValueChanged(object sender, EventArgs e)
