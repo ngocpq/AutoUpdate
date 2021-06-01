@@ -16,7 +16,10 @@ namespace WS_Client_CShap
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            
+            Application.Run(new FormClientStomp()); // WsClient using Stomp, connect to ERPIA Websocket server 
+            
+            //Application.Run(new Form1()); // WsClient using WebSocket-Sharp, connect to our demo WsServer C# (run the project WS_Server_Shap).
         }
     }
 }

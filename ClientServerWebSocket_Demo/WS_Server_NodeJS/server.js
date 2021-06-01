@@ -15,27 +15,34 @@ function processUserIncommingMessage(message) {
     console.log('received: %s', message);
 }
 
-wssAdmin.on('connection', function connection(ws) {
+function adminConnection(ws) {
     ws.on('message', function incoming(message) {
         console.log('received: %s', message);
     });
-
+    ws.on('disconnect', function disconnect() {
+        console.log('disconnect %s', this);
+    });
+    ws.on('close', function close(code, signal) {
+        console.log('close code: %s, signal: %s', code, signal);
+    });
+    ws.on('exit', function exit(code, signal) {
+        console.log('exit, code: %s, signal: %s', code, signal);
+    });
     ws.send('Admin console');
-});
+}
 
-wssServices.on('connection', function connection(ws, req) {
+function userConnection(ws, req) {
     console.log('Server: %s', this);
     console.log('ws: %s', ws);
 
     ws.on('message', function incoming(message) {
         console.log('received: %s', message);
-    });
-    //ws.on('message', processUserIncommingMessage);
+    });    
 
     ws.send('Hello, this is Services console');
-});
+}
 
-httpServer.on('upgrade', function upgrade(request, socket, head) {
+function upgradeHttp2WebSocket(request, socket, head) {
     const pathname = url.parse(request.url).pathname;
 
     if (pathname === '/admin') {
@@ -49,6 +56,12 @@ httpServer.on('upgrade', function upgrade(request, socket, head) {
     } else {
         socket.destroy();
     }
-});
+}
+
+wssAdmin.on('connection', adminConnection);
+
+wssServices.on('connection', userConnection);
+
+httpServer.on('upgrade', upgradeHttp2WebSocket);
 
 httpServer.listen(port);

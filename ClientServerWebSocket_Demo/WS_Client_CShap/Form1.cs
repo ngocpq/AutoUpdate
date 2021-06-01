@@ -67,11 +67,17 @@ namespace WS_Client_CShap
         {
             var ws = new WebSocket(url);
             ws.SetCredentials(userId, password, true);
+            ws.OnOpen += Ws_OnOpen; ;
             ws.OnMessage += Ws_OnMessage;            
             ws.OnError += Ws_OnError;
             ws.OnClose += Ws_OnClose;
             ws.Connect();
             return ws;
+        }
+
+        private void Ws_OnOpen(object sender, EventArgs e)
+        {
+            WriteLog(String.Format("Ws_OnOpen: {0}", sender.ToString()));            
         }
 
         private void btnConnect_Click(object objSender, EventArgs eArgs)
