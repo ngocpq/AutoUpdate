@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WS_Client_CShap", "WS_Clien
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WS_Server_CShap", "WS_Server_CShap\WS_Server_CShap.csproj", "{548DFA04-1769-43D5-8F80-2C9A6B385CD5}"
 EndProject
-Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "WS_Server_NodeJS", "WS_Server_NodeJS\WS_Server_NodeJS.njsproj", "{985AF84C-7F23-48AA-98A2-B274D7718003}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug_Ubuntu|Any CPU = Debug_Ubuntu|Any CPU
@@ -33,14 +31,6 @@ Global
 		{548DFA04-1769-43D5-8F80-2C9A6B385CD5}.Release_Ubuntu|Any CPU.Build.0 = Release|Any CPU
 		{548DFA04-1769-43D5-8F80-2C9A6B385CD5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{548DFA04-1769-43D5-8F80-2C9A6B385CD5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{985AF84C-7F23-48AA-98A2-B274D7718003}.Debug_Ubuntu|Any CPU.ActiveCfg = Debug|Any CPU
-		{985AF84C-7F23-48AA-98A2-B274D7718003}.Debug_Ubuntu|Any CPU.Build.0 = Debug|Any CPU
-		{985AF84C-7F23-48AA-98A2-B274D7718003}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{985AF84C-7F23-48AA-98A2-B274D7718003}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{985AF84C-7F23-48AA-98A2-B274D7718003}.Release_Ubuntu|Any CPU.ActiveCfg = Release|Any CPU
-		{985AF84C-7F23-48AA-98A2-B274D7718003}.Release_Ubuntu|Any CPU.Build.0 = Release|Any CPU
-		{985AF84C-7F23-48AA-98A2-B274D7718003}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{985AF84C-7F23-48AA-98A2-B274D7718003}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
